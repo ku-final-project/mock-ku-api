@@ -1,5 +1,5 @@
 {
-  "name": "my-mock-ku-api",
+  "name": "mock-ku-api",
   "version": "0.0.0",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230717.1",
