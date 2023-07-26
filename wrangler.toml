@@ -1,3 +1,4 @@
 name = "mock-ku-api"
 compatibility_date = "2023-07-25"
 main = "src/index.ts"
+node_compat = true

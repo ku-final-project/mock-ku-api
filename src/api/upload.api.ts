@@ -1,6 +1,11 @@
-import { Config } from '@/api/types';
+// import cloudinary from '@/libs/cloudinary';
 
-export async function handleConnect(request: Request): Promise<Response> {
+interface Picture {
+  pic: string;
+  face_id: string;
+}
+
+export async function validateFace(request: Request): Promise<Response> {
   const { headers } = request;
   const contentType = headers.get('content-type');
 
@@ -10,15 +15,16 @@ export async function handleConnect(request: Request): Promise<Response> {
     });
   }
 
-  const body: Config = await request.json();
+  const body: Picture = await request.json();
 
-  if (!body || !body.baseUrlAPI || !body.eventId || !body.token) {
+  if (!body || !body.pic || !body.face_id) {
     return new Response('Missing required fields.', { status: 400 });
   }
 
+  // const uploadPic = await cloudinary.uploader.upload(body.pic, { public_id: body.face_id, upload_preset: 'api_face' });
+
   const response = {
-    message: 'This is the POST endpoint response!',
-    data: body,
+    status: Math.random() < 0.5,
   };
 
   return new Response(JSON.stringify(response), {
