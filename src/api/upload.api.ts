@@ -19,17 +19,12 @@ export async function validateFace(request: Request, env: Env): Promise<Response
     return new Response('Missing required fields.', { status: 400 });
   }
   const base64 = body.pic
-  // const type = detectType(base64)
+  const type = detectType(base64)
 
-  // if (!type)
-  //   return new Response('Picture not found type', { status: 400 });
+  if (!type)
+    return new Response('Picture not found type', { status: 400 });
 
-  const picBuffer = Buffer.from(base64, 'base64');
-
-  // const picBuffer = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))
-
-
-  await env.MY_BUCKET.put('image.jpeg', dataURItoUint8Array(base64), { httpMetadata: { contentType: 'image/jpeg' } });
+  await env.MY_BUCKET.put('image', dataURItoUint8Array(base64), { httpMetadata: { contentType: type.mimeType } });
 
   const response = {
     status: Math.random() < 0.5,
@@ -41,13 +36,3 @@ export async function validateFace(request: Request, env: Env): Promise<Response
     },
   });
 }
-
-// function str2ab (string: string) {
-//   const
-//     length = string.length,
-//     buf = new ArrayBuffer(length),
-//     bufView = new Uint8Array(buf);
-//   for (var i = 0; i < length; i++) { bufView[i] = string.charCodeAt(i) }
-//   return buf
-// }
-

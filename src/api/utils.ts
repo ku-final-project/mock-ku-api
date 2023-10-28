@@ -14,7 +14,7 @@ const signatures: Record<string, Type> = {
 
 export const detectType = (b64: string): Type | undefined => {
   for (const s in signatures) {
-    if (b64.indexOf(s) === 0) {
+    if (b64.indexOf(s) != -1) {
       return signatures[s]
     }
   }
