@@ -4,14 +4,6 @@ import { Context, Next } from 'hono';
 
 export async function validateFace(c: Context, next: Next): Promise<Response> {
   const contentType = c.req.header('content-type');
-  const API_KEY = c.req.header('X-Api-Key');
-
-  if (API_KEY !== c.env.SHARED_API_KEY) {
-    return new Response('Unauthorized', {
-      status: 401,
-    });
-  }
-
   if (contentType !== 'application/json') {
     return new Response('Invalid Content-Type. Only JSON is allowed.', {
       status: 400,
