@@ -1,20 +1,17 @@
 import { Picture } from '@/api/types';
+import { Bindings } from '@/bindings/index';
 import { detectType, dataURItoUint8Array } from '@/libs/utils';
 import { Context, Next } from 'hono';
+import { Type as T } from '@sinclair/typebox';
 
-export async function validateFace(c: Context, next: Next): Promise<Response> {
-  const contentType = c.req.header('content-type');
-  if (contentType !== 'application/json') {
-    return new Response('Invalid Content-Type. Only JSON is allowed.', {
-      status: 400,
-    });
-  }
+export const validateFaceSchema = T.Object({
+  pic: T.String(),
+  face_id: T.String(),
+});
 
+export async function validateFace(c: Context<{ Bindings: Bindings }>, next: Next): Promise<Response> {
   const body: Picture = await c.req.json()
 
-  if (!body || !body.pic || !body.face_id) {
-    return new Response('Missing required fields.', { status: 400 });
-  }
   const base64 = body.pic;
   const type = detectType(base64);
 
@@ -22,13 +19,7 @@ export async function validateFace(c: Context, next: Next): Promise<Response> {
 
   await c.env.MY_BUCKET.put('image', dataURItoUint8Array(base64), { httpMetadata: { contentType: type.mimeType } });
 
-  const response = {
+  return c.json({
     status: Math.random() < 0.5,
-  };
-
-  return new Response(JSON.stringify(response), {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  })
 }

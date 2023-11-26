@@ -5,6 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@hono/swagger-ui':
+    specifier: ^0.1.0
+    version: 0.1.0(hono@3.10.2)
+  '@hono/typebox-validator':
+    specifier: ^0.2.2
+    version: 0.2.2(@sinclair/typebox@0.31.28)(hono@3.10.2)
+  '@sinclair/typebox':
+    specifier: ^0.31.28
+    version: 0.31.28
   hono:
     specifier: ^3.10.2
     version: 3.10.2
@@ -294,6 +303,28 @@ packages:
     resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
     engines: {node: '>=14'}
     dev: true
+
+  /@hono/swagger-ui@0.1.0(hono@3.10.2):
+    resolution: {integrity: sha512-W5WEEhk2QtiqdSfM40FcK98Q5Bz4H/NfNqBUSkcZ46ys+DG4wt1yGsmRZgdJMje6t5Vn8eFN+9nyO+/dAp3drA==}
+    peerDependencies:
+      hono: '*'
+    dependencies:
+      hono: 3.10.2
+    dev: false
+
+  /@hono/typebox-validator@0.2.2(@sinclair/typebox@0.31.28)(hono@3.10.2):
+    resolution: {integrity: sha512-6hLnF9Pe+nOWSvX5SIhobZ9Wt7vjTT3sjqDZ5lKALf+9J9XMtNzDyMSjpM5SQv8gg+fOPHu/ZSYxxmUhl65QOg==}
+    peerDependencies:
+      '@sinclair/typebox': ^0.31.15
+      hono: '>=3.9.0'
+    dependencies:
+      '@sinclair/typebox': 0.31.28
+      hono: 3.10.2
+    dev: false
+
+  /@sinclair/typebox@0.31.28:
+    resolution: {integrity: sha512-/s55Jujywdw/Jpan+vsy6JZs1z2ZTGxTmbZTPiuSL2wz9mfzA2gN1zzaqmvfi4pq+uOt7Du85fkiwv5ymW84aQ==}
+    dev: false
 
   /@types/node-forge@1.3.10:
     resolution: {integrity: sha512-y6PJDYN4xYBxwd22l+OVH35N+1fCYWiuC3aiP2SlXVE6Lo7SS+rSx9r89hLxrP4pn6n1lBGhHJ12pj3F3Mpttw==}

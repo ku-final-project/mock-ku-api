@@ -2,9 +2,13 @@
   "name": "mock-ku-api",
   "scripts": {
     "dev": "wrangler dev src/index.ts",
+    "dev:remote": "wrangler dev src/index.ts --remote",
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
+    "@hono/swagger-ui": "^0.1.0",
+    "@hono/typebox-validator": "^0.2.2",
+    "@sinclair/typebox": "^0.31.28",
     "hono": "^3.10.2"
   },
   "devDependencies": {
