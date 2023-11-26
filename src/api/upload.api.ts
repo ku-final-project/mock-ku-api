@@ -1,45 +1,25 @@
-// import cloudinary from '@/libs/cloudinary';
-import { Env, Picture } from "@/api/types";
-import { Buffer } from "buffer";
-import { detectType,dataURItoUint8Array } from "@/api/utils";
+import { Picture } from '@/api/types';
+import { Bindings } from '@/bindings/index';
+import { detectType, dataURItoUint8Array } from '@/libs/utils';
+import { Context, Next } from 'hono';
+import { Type as T } from '@sinclair/typebox';
 
-export async function validateFace(request: Request, env: Env): Promise<Response> {
-  const { headers } = request;
-  const contentType = headers.get('content-type');
-  const API_KEY = headers.get('X-Api-Key');
+export const validateFaceSchema = T.Object({
+  pic: T.String(),
+  face_id: T.String(),
+});
 
-  if(API_KEY !== env.SHARED_API_KEY){
-    return new Response('Unauthorized', {
-      status: 401,
-    });
-  }
+export async function validateFace(c: Context<{ Bindings: Bindings }>, next: Next): Promise<Response> {
+  const body: Picture = await c.req.json()
 
-  if (contentType !== 'application/json') {
-    return new Response('Invalid Content-Type. Only JSON is allowed.', {
-      status: 400,
-    });
-  }
+  const base64 = body.pic;
+  const type = detectType(base64);
 
-  const body: Picture = await request.json();
+  if (!type) return new Response('Picture not found type', { status: 400 });
 
-  if (!body || !body.pic || !body.face_id) {
-    return new Response('Missing required fields.', { status: 400 });
-  }
-  const base64 = body.pic
-  const type = detectType(base64)
+  await c.env.MY_BUCKET.put('image', dataURItoUint8Array(base64), { httpMetadata: { contentType: type.mimeType } });
 
-  if (!type)
-    return new Response('Picture not found type', { status: 400 });
-
-  await env.MY_BUCKET.put('image', dataURItoUint8Array(base64), { httpMetadata: { contentType: type.mimeType } });
-
-  const response = {
+  return c.json({
     status: Math.random() < 0.5,
-  };
-
-  return new Response(JSON.stringify(response), {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  })
 }

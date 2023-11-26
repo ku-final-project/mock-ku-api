@@ -1,11 +1,8 @@
 name = "mock-ku-api"
 compatibility_date = "2023-07-25"
 main = "src/index.ts"
-node_compat = true
-account_id = "056764891c98b3e46d1aa617128132d6"
-workers_dev = true
 
 [[r2_buckets]]
-binding = 'MY_BUCKET' # <~ valid JavaScript variable name
+binding = 'MY_BUCKET' 
 bucket_name = 'face-api'
 preview_bucket_name = 'worker-bucket'
