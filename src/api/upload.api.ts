@@ -1,5 +1,5 @@
 import { Picture } from '@/api/types';
-import { detectType, dataURItoUint8Array } from '@/api/utils';
+import { detectType, dataURItoUint8Array } from '@/libs/utils';
 import { Context, Next } from 'hono';
 
 export async function validateFace(c: Context, next: Next): Promise<Response> {
