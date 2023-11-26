@@ -1,16 +1,17 @@
-import { Picture } from '@/api/types';
 import { Bindings } from '@/bindings/index';
 import { detectType, dataURItoUint8Array } from '@/libs/utils';
 import { Context, Next } from 'hono';
-import { Type as T } from '@sinclair/typebox';
+import { Static, Type as T } from '@sinclair/typebox';
 
 export const validateFaceSchema = T.Object({
   pic: T.String(),
   face_id: T.String(),
 });
 
+type Picture = Static<typeof validateFaceSchema>;
+
 export async function validateFace(c: Context<{ Bindings: Bindings }>, next: Next): Promise<Response> {
-  const body: Picture = await c.req.json()
+  const body: Picture = await c.req.json();
 
   const base64 = body.pic;
   const type = detectType(base64);
@@ -21,5 +22,5 @@ export async function validateFace(c: Context<{ Bindings: Bindings }>, next: Nex
 
   return c.json({
     status: Math.random() < 0.5,
-  })
+  });
 }
