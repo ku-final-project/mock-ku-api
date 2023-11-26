@@ -6,6 +6,13 @@ import { detectType,dataURItoUint8Array } from "@/api/utils";
 export async function validateFace(request: Request, env: Env): Promise<Response> {
   const { headers } = request;
   const contentType = headers.get('content-type');
+  const API_KEY = headers.get('X-Api-Key');
+
+  if(API_KEY !== env.SHARED_API_KEY){
+    return new Response('Unauthorized', {
+      status: 401,
+    });
+  }
 
   if (contentType !== 'application/json') {
     return new Response('Invalid Content-Type. Only JSON is allowed.', {

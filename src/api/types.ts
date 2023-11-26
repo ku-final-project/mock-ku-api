@@ -8,5 +8,6 @@ export interface Picture {
   face_id: string;
 }
 export interface Env {
-  MY_BUCKET: R2Bucket
+  MY_BUCKET: R2Bucket;
+  SHARED_API_KEY: string;
 }
